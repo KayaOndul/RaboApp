@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CustomerRepository extends MongoRepository<Customer, Long> {
+public interface CustomerRepository extends MongoRepository<Customer, String> {
 
-    Optional<Customer> findCustomerById(Long customerId);
+    Optional<Customer> findCustomerById(String customerId);
 }

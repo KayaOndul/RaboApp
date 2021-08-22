@@ -2,17 +2,17 @@ package nl.rabobank.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import nl.rabobank.model.AccountQueryResponse;
-import nl.rabobank.model.GrantAccessRequest;
+import nl.rabobank.model.account.AccountQueryResponse;
+import nl.rabobank.model.authorization.GrantAccessRequest;
 import nl.rabobank.service.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("permissions")
+@RequestMapping("grant")
 @RequiredArgsConstructor
-public class PermissionsController {
-    private final CustomerService  customerService;
+public class GrantsController {
+    private final CustomerService customerService;
 
 
     @PostMapping
@@ -21,15 +21,9 @@ public class PermissionsController {
         return ResponseEntity.accepted().build();
 
     }
-    @PostMapping("pic")
-    public ResponseEntity<Void> sikkiriggi() {
-        customerService.sikkirigi();
-        return ResponseEntity.accepted().build();
-
-    }
 
     @GetMapping
-    public ResponseEntity<AccountQueryResponse> getGrantedAccounts(@RequestParam Long granteeId) {
+    public ResponseEntity<AccountQueryResponse> getGrantedAccounts(@RequestParam String granteeId) {
         AccountQueryResponse accountQueryResponse = customerService.getGrantsOfUser(granteeId);
         return ResponseEntity.ok(accountQueryResponse);
     }

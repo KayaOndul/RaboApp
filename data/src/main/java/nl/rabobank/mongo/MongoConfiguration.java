@@ -1,5 +1,8 @@
 package nl.rabobank.mongo;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -8,9 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableMongoRepositories
