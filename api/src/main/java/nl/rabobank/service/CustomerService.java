@@ -60,4 +60,10 @@ public class CustomerService {
         }
         return accountList.get(0);
     }
+
+    public void sikkirigi() {
+        Customer customer=new Customer();
+        customer.setName("Amsuyu");
+        customerRepository.save(customer);
+    }
 }
