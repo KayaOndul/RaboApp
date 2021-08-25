@@ -5,8 +5,8 @@ import nl.rabobank.account.SavingsAccount;
 import nl.rabobank.authorizations.Authorization;
 import nl.rabobank.authorizations.PowerOfAttorney;
 import nl.rabobank.mongo.MongoConfiguration;
-import nl.rabobank.mongo.data.Customer;
-import nl.rabobank.repository.CustomerRepository;
+import nl.rabobank.mongo.entity.Customer;
+import nl.rabobank.mongo.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,14 +14,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.util.List;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"nl.rabobank.*"})
 @EntityScan(basePackages = {"nl.rabobank.*"})
-@EnableMongoRepositories(basePackages = {"nl.rabobank.*"})
 @Import(MongoConfiguration.class)
 public class RaboAssignmentApplication implements CommandLineRunner {
     public static void main(final String[] args) {
@@ -33,7 +31,7 @@ public class RaboAssignmentApplication implements CommandLineRunner {
     CustomerRepository customerRepository;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args)  {
         PaymentAccount paymentAccountOne = PaymentAccount.builder()
                 .accountNumber("1234561")
                 .accountHolderName("Kaya Ondul")

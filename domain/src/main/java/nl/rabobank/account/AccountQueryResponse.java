@@ -1,4 +1,4 @@
-package nl.rabobank.model.account;
+package nl.rabobank.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

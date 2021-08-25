@@ -1,10 +1,11 @@
-package nl.rabobank.model.authorization;
+package nl.rabobank.authorizations;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
-import nl.rabobank.authorizations.Authorization;
 
 @Data
+@Builder
 public class GrantAccessRequest {
     @JsonProperty("grantee_id")
     private String granteeId;

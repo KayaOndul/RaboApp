@@ -2,9 +2,9 @@ package nl.rabobank.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import nl.rabobank.model.account.AccountQueryResponse;
-import nl.rabobank.model.authorization.GrantAccessRequest;
-import nl.rabobank.service.CustomerService;
+import nl.rabobank.account.AccountQueryResponse;
+import nl.rabobank.authorizations.GrantAccessRequest;
+import nl.rabobank.service.impl.RabobankGrantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("grant")
 @RequiredArgsConstructor
 public class GrantsController {
-    private final CustomerService customerService;
+    private final RabobankGrantService rabobankGrantService;
 
 
     @PostMapping
     public ResponseEntity<Void> grantAccess(@RequestBody GrantAccessRequest grantAccessRequest) {
-        customerService.grantAccessToUser(grantAccessRequest);
+        rabobankGrantService.grantAccessToUser(grantAccessRequest);
         return ResponseEntity.accepted().build();
 
     }
 
     @GetMapping
     public ResponseEntity<AccountQueryResponse> getGrantedAccounts(@RequestParam String granteeId) {
-        AccountQueryResponse accountQueryResponse = customerService.getGrantsOfUser(granteeId);
+        AccountQueryResponse accountQueryResponse = rabobankGrantService.getGrantsOfUser(granteeId);
         return ResponseEntity.ok(accountQueryResponse);
     }
 }
