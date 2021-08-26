@@ -8,15 +8,17 @@ import nl.rabobank.service.impl.RabobankGrantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("grant")
 @RequiredArgsConstructor
-public class GrantsController {
+public class GrantController {
     private final RabobankGrantService rabobankGrantService;
 
 
     @PostMapping
-    public ResponseEntity<Void> grantAccess(@RequestBody GrantAccessRequest grantAccessRequest) {
+    public ResponseEntity<Void> grantAccess(@RequestBody @Valid GrantAccessRequest grantAccessRequest) {
         rabobankGrantService.grantAccessToUser(grantAccessRequest);
         return ResponseEntity.accepted().build();
 

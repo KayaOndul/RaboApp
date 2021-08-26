@@ -2,6 +2,7 @@ package nl.rabobank.service.impl;
 
 import nl.rabobank.account.Account;
 import nl.rabobank.account.PaymentAccount;
+import nl.rabobank.account.SavingsAccount;
 import nl.rabobank.authorizations.Authorization;
 import nl.rabobank.authorizations.GrantAccessRequest;
 import nl.rabobank.authorizations.PowerOfAttorney;
@@ -41,6 +42,7 @@ class RabobankGrantServiceTest {
     public static final Authorization AUTHORIZATION = READ;
     public static final String ACCOUNT_NUMBER = "12a123fc11";
     public static final String ACCOUNT_NUMBER_TWO = "12e123fc00";
+    public static final String ACCOUNT_NUMBER_THREE = "12e123fc44";
     public static final String CUSTOMER_ID_ONE = "2897163a01280398";
     public static final String NAME_ONE = "John Doe";
     public static final String CUSTOMER_ID_TWO = "213322112321a32";
@@ -51,6 +53,7 @@ class RabobankGrantServiceTest {
     static Customer customerTwo;
     static Account paymentAccountOne;
     static Account paymentAccountTwo;
+    static Account accountToGrant;
 
     static List<Account> accountList;
     static List<PowerOfAttorney> powerOfAttorneyList;
@@ -61,7 +64,7 @@ class RabobankGrantServiceTest {
     public void init() {
         grantAccessRequest = GrantAccessRequest.builder()
                 .authorization(AUTHORIZATION)
-                .accountNumber(ACCOUNT_NUMBER_TWO)
+                .accountNumber(ACCOUNT_NUMBER_THREE)
                 .granteeId(CUSTOMER_ID_TWO)
                 .grantorId(CUSTOMER_ID_ONE)
                 .build();
@@ -78,7 +81,13 @@ class RabobankGrantServiceTest {
                 .balance(80.00)
                 .build();
 
-        accountList = List.of(paymentAccountOne, paymentAccountTwo);
+        accountToGrant = SavingsAccount.builder()
+                .accountNumber(ACCOUNT_NUMBER_THREE)
+                .accountHolderName(NAME_ONE)
+                .balance(70.00)
+                .build();
+
+        accountList = List.of(paymentAccountOne, paymentAccountTwo,accountToGrant);
 
         powerOfAttorney = PowerOfAttorney.builder()
                 .account(paymentAccountOne)
@@ -127,6 +136,16 @@ class RabobankGrantServiceTest {
 
         ApiException actual = assertThrows(ApiException.class, () -> grantService.grantAccessToUser(grantAccessRequest));
         assertEquals(ErrorCode.NOT_GRANTORS_ACCOUNT, actual.getErrorCode());
+    }
+
+    @Test
+    void shouldThrowExceptionIfAccountIsAlreadyGranted(){
+        grantAccessRequest.setAccountNumber(ACCOUNT_NUMBER);
+        when(customerService.getCustomersByIdIn(List.of(CUSTOMER_ID_ONE, CUSTOMER_ID_TWO))).thenReturn(List.of(customerOne, customerTwo));
+
+
+        ApiException actual = assertThrows(ApiException.class, () ->    grantService.grantAccessToUser(grantAccessRequest));
+        assertEquals(ErrorCode.ALREADY_HAS_GRANT, actual.getErrorCode());
     }
 
     @Test

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RabobankGrantService implements GrantService {
     private final CustomerService customerService;
-    
+
 
     public AccountQueryResponse getGrantsOfUser(String granteeId) {
         final Customer grantee = customerService.getCustomerById(granteeId);
@@ -34,7 +34,7 @@ public class RabobankGrantService implements GrantService {
         return new AccountQueryResponse(
                 authorizationListMap.get(Authorization.READ),
                 authorizationListMap.get(Authorization.WRITE));
-        
+
 
     }
 
@@ -50,13 +50,25 @@ public class RabobankGrantService implements GrantService {
 
         customerService.save(grantee);
     }
+
     private void addPowerOfAttorneyToGrantee(GrantAccessRequest grantAccessRequest, Customer grantor, Account account, Customer grantee) {
+        checkGranteeHasGrant(account, grantee);
+
         grantee.getPowerOfAttorneyList().add(PowerOfAttorney.builder()
                 .granteeName(grantee.getName())
                 .grantorName(grantor.getName())
                 .authorization(grantAccessRequest.getAuthorization())
                 .account(account)
                 .build());
+    }
+
+    private void checkGranteeHasGrant(Account account, Customer grantee) {
+        boolean isAlreadyAssigned = grantee.getPowerOfAttorneyList()
+                .stream().map(powerOfAttorney -> powerOfAttorney.getAccount().getAccountNumber())
+                .anyMatch(accountNumber -> account.getAccountNumber().equals(accountNumber));
+        if (isAlreadyAssigned) {
+            throw new ApiException(ErrorCode.ALREADY_HAS_GRANT);
+        }
     }
 
     private Account getAccountByAccountNumber(Customer customer, GrantAccessRequest grantAccessRequest) {
@@ -74,7 +86,7 @@ public class RabobankGrantService implements GrantService {
 
     private List<Customer> getGrantorAndGrantee(GrantAccessRequest grantAccessRequest) {
         final var customers = customerService.getCustomersByIdIn(List.of(grantAccessRequest.getGrantorId(), grantAccessRequest.getGranteeId()));
-        if(customers.size()<2){
+        if (customers.size() < 2) {
             throw new ApiException(ErrorCode.USER_NOT_FOUND);
 
         }

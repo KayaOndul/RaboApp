@@ -8,9 +8,8 @@ public enum ErrorCode {
     NO_ERRORCODE_FOUND(HttpStatus.INTERNAL_SERVER_ERROR.value()),
     NOT_GRANTORS_ACCOUNT(HttpStatus.BAD_REQUEST.value()),
     SYSTEM_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value()),
-    INVALID_REQUEST_BODY(HttpStatus.BAD_REQUEST.value());
-
-
+    INVALID_REQUEST_BODY(HttpStatus.BAD_REQUEST.value()),
+    ALREADY_HAS_GRANT(HttpStatus.BAD_REQUEST.value());
 
     private final int httpStatus;
 
