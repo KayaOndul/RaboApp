@@ -33,8 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Import(EmbeddedMongoAutoConfiguration.class)
-@PropertySource(value = "classpath:application.properties")
-
 class GrantControllerTest {
     @Autowired
     private MockMvc mvc;
