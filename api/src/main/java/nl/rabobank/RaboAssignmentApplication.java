@@ -8,9 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"nl.rabobank.*"})
-@EntityScan(basePackages = {"nl.rabobank.*"})
-@Import(MongoConfiguration.class)
 public class RaboAssignmentApplication  {
     public static void main(final String[] args) {
         SpringApplication.run(RaboAssignmentApplication.class, args);
