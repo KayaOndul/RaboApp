@@ -6,6 +6,7 @@ import nl.rabobank.account.AccountQueryResponse;
 import nl.rabobank.authorizations.GrantAccessRequest;
 import nl.rabobank.service.impl.RabobankGrantService;
 import nl.rabobank.service.spec.GrantService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class GrantController {
     @PostMapping
     public ResponseEntity<Void> grantAccess(@RequestBody @Valid GrantAccessRequest grantAccessRequest) {
         rabobankGrantService.grantAccessToUser(grantAccessRequest);
-        return ResponseEntity.accepted().build();
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 
