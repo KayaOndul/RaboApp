@@ -7,6 +7,7 @@ import nl.rabobank.mongo.entity.Customer;
 import nl.rabobank.mongo.repository.CustomerRepository;
 import nl.rabobank.service.spec.CustomerService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class RabobankCustomerService implements CustomerService {
 
 
     @Override
+    @Transactional
     public void save(Customer grantee) {
         customerRepository.save(grantee);
     }

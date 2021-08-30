@@ -13,6 +13,7 @@ import nl.rabobank.mongo.entity.Customer;
 import nl.rabobank.service.spec.CustomerService;
 import nl.rabobank.service.spec.GrantService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class RabobankGrantService implements GrantService {
 
 
     }
-
+    @Transactional
     public void grantAccessToUser(GrantAccessRequest grantAccessRequest) {
 
         final List<Customer> customers = getGrantorAndGrantee(grantAccessRequest);

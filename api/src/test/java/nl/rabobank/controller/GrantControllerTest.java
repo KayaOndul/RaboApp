@@ -123,13 +123,13 @@ class GrantControllerTest {
 
     @Test
     void shouldAddGrantToSecondCustomerSuccessfully() throws Exception {
-        var second = customerRepository.findCustomersByName("Busra Ondul").get();
-        var first = customerRepository.findCustomersByName("Kaya Ondul").get();
+        var grantee = customerRepository.findCustomersByName("Busra Ondul").get();
+        var grantor = customerRepository.findCustomersByName("Kaya Ondul").get();
 
         GrantAccessRequest grantAccessRequest = GrantAccessRequest.builder()
-                .grantorId(first.getId())
-                .granteeId(second.getId())
-                .accountNumber(first.getAccounts().get(0).getAccountNumber())
+                .grantorId(grantor.getId())
+                .granteeId(grantee.getId())
+                .accountNumber(grantor.getAccounts().get(0).getAccountNumber())
                 .authorization(Authorization.WRITE)
                 .build();
 
