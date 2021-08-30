@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import nl.rabobank.account.AccountQueryResponse;
 import nl.rabobank.authorizations.GrantAccessRequest;
 import nl.rabobank.service.impl.RabobankGrantService;
+import nl.rabobank.service.spec.GrantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import javax.validation.Valid;
 @RequestMapping("grant")
 @RequiredArgsConstructor
 public class GrantController {
-    private final RabobankGrantService rabobankGrantService;
+    private final GrantService rabobankGrantService;
 
 
     @PostMapping
